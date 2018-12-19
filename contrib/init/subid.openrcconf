@@ -1,0 +1,33 @@
+# /etc/conf.d/subid: config file for /etc/init.d/subid
+
+# Config file location
+#SUBID_CONFIGFILE="/etc/subi/subi.conf"
+
+# What directory to write pidfile to?  (created and owned by $SUBID_USER)
+#SUBID_PIDDIR="/var/run/subid"
+
+# What filename to give the pidfile
+#SUBID_PIDFILE="${SUBID_PIDDIR}/subid.pid"
+
+# Where to write subid data (be mindful that the blockchain is large)
+#SUBID_DATADIR="/var/lib/subid"
+
+# User and group to own subid process
+#SUBID_USER="subi"
+#SUBID_GROUP="subi"
+
+# Path to subid executable
+#SUBID_BIN="/usr/bin/subid"
+
+# Nice value to run subid under
+#SUBID_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#SUBID_OPTS=""
+
+# The timeout in seconds OpenRC will wait for subid to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+SUBID_SIGTERM_TIMEOUT=60

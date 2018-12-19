@@ -1,0 +1,92 @@
+#!/sbin/openrc-run
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/subi/.subi" ]; then
+	SUBID_DEFAULT_DATADIR="/var/lib/subi/.subi"
+else
+	SUBID_DEFAULT_DATADIR="/var/lib/subid"
+fi
+
+SUBID_CONFIGFILE=${SUBID_CONFIGFILE:-/etc/subi/subi.conf}
+SUBID_PIDDIR=${SUBID_PIDDIR:-/var/run/subid}
+SUBID_PIDFILE=${SUBID_PIDFILE:-${SUBID_PIDDIR}/subid.pid}
+SUBID_DATADIR=${SUBID_DATADIR:-${SUBID_DEFAULT_DATADIR}}
+SUBID_USER=${SUBID_USER:-${SUBI_USER:-subi}}
+SUBID_GROUP=${SUBID_GROUP:-subi}
+SUBID_BIN=${SUBID_BIN:-/usr/bin/subid}
+SUBID_NICE=${SUBID_NICE:-${NICELEVEL:-0}}
+SUBID_OPTS="${SUBID_OPTS:-${SUBI_OPTS}}"
+
+name="Subi Core Daemon"
+description="SUBI cryptocurrency P2P network daemon"
+
+command="/usr/bin/subid"
+command_args="-pid=\"${SUBID_PIDFILE}\" \
+		-conf=\"${SUBID_CONFIGFILE}\" \
+		-datadir=\"${SUBID_DATADIR}\" \
+		-daemon \
+		${SUBID_OPTS}"
+
+required_files="${SUBID_CONFIGFILE}"
+start_stop_daemon_args="-u ${SUBID_USER} \
+			-N ${SUBID_NICE} -w 2000"
+pidfile="${SUBID_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${SUBID_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${SUBID_USER}:${SUBID_GROUP}" \
+	"${SUBID_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${SUBID_USER}:${SUBID_GROUP}" \
+	"${SUBID_PIDDIR}"
+
+	checkpath -f \
+	-o ${SUBID_USER}:${SUBID_GROUP} \
+	-m 0660 \
+	${SUBID_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${SUBID_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run subid."
+		eerror "The setting must appear in ${SUBID_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following "
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"SUBI Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

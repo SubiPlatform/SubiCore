@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=Subi Core
+Comment=Connect to the Subi P2P Network
+Comment[de]=Verbinde mit dem Subi peer-to-peer Netzwerk
+Comment[fr]=Subi, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Subi, eşten eşe kriptografik sanal para birimi
+Exec=subi-qt %u
+Terminal=false
+Type=Application
+Icon=subi128
+MimeType=x-scheme-handler/subi;
+Categories=Office;Finance;
+StartupWMClass=Subi-qt

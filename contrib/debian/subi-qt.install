@@ -1,0 +1,6 @@
+usr/local/bin/subi-qt usr/bin
+share/pixmaps/subi32.xpm usr/share/pixmaps
+share/pixmaps/subi16.xpm usr/share/pixmaps
+share/pixmaps/subi128.png usr/share/pixmaps
+debian/subi-qt.desktop usr/share/applications
+debian/subi-qt.protocol usr/share/kde4/services/

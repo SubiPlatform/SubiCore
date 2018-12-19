@@ -1,0 +1,77 @@
+# Copyright (c) 2013-2016 The Bitcoin Core developers
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+bin_PROGRAMS += qt/test/test_subi-qt
+TESTS += qt/test/test_subi-qt
+
+TEST_QT_MOC_CPP = \
+  qt/test/moc_compattests.cpp \
+  qt/test/moc_rpcnestedtests.cpp \
+  qt/test/moc_uritests.cpp
+
+if ENABLE_WALLET
+TEST_QT_MOC_CPP += \
+  qt/test/moc_paymentservertests.cpp \
+  qt/test/moc_wallettests.cpp
+endif
+
+TEST_QT_H = \
+  qt/test/compattests.h \
+  qt/test/rpcnestedtests.h \
+  qt/test/uritests.h \
+  qt/test/paymentrequestdata.h \
+  qt/test/paymentservertests.h \
+  qt/test/wallettests.h
+
+TEST_SUBI_CPP = \
+  test/test_subi.cpp
+
+TEST_SUBI_H = \
+  test/test_subi.h
+
+qt_test_test_subi_qt_CPPFLAGS = $(AM_CPPFLAGS) $(SUBI_INCLUDES) $(SUBI_QT_INCLUDES) \
+  $(QT_INCLUDES) $(QT_TEST_INCLUDES) $(PROTOBUF_CFLAGS)
+
+qt_test_test_subi_qt_SOURCES = \
+  qt/test/compattests.cpp \
+  qt/test/rpcnestedtests.cpp \
+  qt/test/test_main.cpp \
+  qt/test/uritests.cpp \
+  $(TEST_QT_H) \
+  $(TEST_SUBI_CPP) \
+  $(TEST_SUBI_H)
+if ENABLE_WALLET
+qt_test_test_subi_qt_SOURCES += \
+  qt/test/paymentservertests.cpp \
+  qt/test/wallettests.cpp \
+  wallet/test/wallet_test_fixture.cpp
+endif
+
+nodist_qt_test_test_subi_qt_SOURCES = $(TEST_QT_MOC_CPP)
+
+qt_test_test_subi_qt_LDADD = $(LIBSUBIQT) $(LIBSUBI_SERVER)
+if ENABLE_WALLET
+qt_test_test_subi_qt_LDADD += $(LIBSUBI_WALLET)
+endif
+if ENABLE_ZMQ
+qt_test_test_subi_qt_LDADD += $(LIBSUBI_ZMQ) $(ZMQ_LIBS)
+endif
+qt_test_test_subi_qt_LDADD += $(LIBSUBI_CLI) $(LIBSUBI_COMMON) $(LIBSUBI_UTIL) $(LIBSUBI_CONSENSUS) $(LIBSUBI_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) \
+  $(LIBLEVELDB_SSE42) $(LIBMEMENV) $(BOOST_LIBS) $(QT_DBUS_LIBS) $(QT_TEST_LIBS) $(QT_LIBS) \
+  $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
+  $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+qt_test_test_subi_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+qt_test_test_subi_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
+
+CLEAN_SUBI_QT_TEST = $(TEST_QT_MOC_CPP) qt/test/*.gcda qt/test/*.gcno
+
+CLEANFILES += $(CLEAN_SUBI_QT_TEST)
+
+test_subi_qt : qt/test/test_subi-qt$(EXEEXT)
+
+test_subi_qt_check : qt/test/test_subi-qt$(EXEEXT) FORCE
+	$(MAKE) check-TESTS TESTS=$^
+
+test_subi_qt_clean: FORCE
+	rm -f $(CLEAN_SUBI_QT_TEST) $(qt_test_test_subi_qt_OBJECTS)
