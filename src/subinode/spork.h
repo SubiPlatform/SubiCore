@@ -24,22 +24,22 @@ static const int SPORK_END                                              = 10013;
 static const int SPORK_2_INSTANTSEND_ENABLED                            = 10001;
 static const int SPORK_3_INSTANTSEND_BLOCK_FILTERING                    = 10002;
 static const int SPORK_5_INSTANTSEND_MAX_VALUE                          = 10004;
-static const int SPORK_8_SUBINODE_PAYMENT_ENFORCEMENT                 = 10007;
+static const int SPORK_8_SUBINODE_PAYMENT_ENFORCEMENT                   = 10007;
 static const int SPORK_9_SUPERBLOCKS_ENABLED                            = 10008;
-static const int SPORK_10_SUBINODE_PAY_UPDATED_NODES                  = 10009;
+static const int SPORK_10_SUBINODE_PAY_UPDATED_NODES                    = 10009;
 static const int SPORK_12_RECONSIDER_BLOCKS                             = 10011;
 static const int SPORK_13_OLD_SUPERBLOCK_FLAG                           = 10012;
 static const int SPORK_14_REQUIRE_SENTINEL_FLAG                         = 10013;
 
-static const int64_t SPORK_2_INSTANTSEND_ENABLED_DEFAULT                = 0;            // ON
-static const int64_t SPORK_3_INSTANTSEND_BLOCK_FILTERING_DEFAULT        = 0;            // ON
-static const int64_t SPORK_5_INSTANTSEND_MAX_VALUE_DEFAULT              = 10000;         // 10000 SUBI
-static const int64_t SPORK_8_SUBINODE_PAYMENT_ENFORCEMENT_DEFAULT     = 4070908800ULL;// OFF
-static const int64_t SPORK_9_SUPERBLOCKS_ENABLED_DEFAULT                = 4070908800ULL;// OFF
-static const int64_t SPORK_10_SUBINODE_PAY_UPDATED_NODES_DEFAULT      = 4070908800ULL;// OFF
-static const int64_t SPORK_12_RECONSIDER_BLOCKS_DEFAULT                 = 0;            // 0 BLOCKS
-static const int64_t SPORK_13_OLD_SUPERBLOCK_FLAG_DEFAULT               = 4070908800ULL;// OFF
-static const int64_t SPORK_14_REQUIRE_SENTINEL_FLAG_DEFAULT             = 4070908800ULL;// OFF
+static const int64_t SPORK_2_INSTANTSEND_ENABLED_DEFAULT                = 0;            
+static const int64_t SPORK_3_INSTANTSEND_BLOCK_FILTERING_DEFAULT        = 0;            
+static const int64_t SPORK_5_INSTANTSEND_MAX_VALUE_DEFAULT              = 10000;         
+static const int64_t SPORK_8_SUBINODE_PAYMENT_ENFORCEMENT_DEFAULT       = 1546041600;
+static const int64_t SPORK_9_SUPERBLOCKS_ENABLED_DEFAULT                = 4070908800ULL;
+static const int64_t SPORK_10_SUBINODE_PAY_UPDATED_NODES_DEFAULT        = 4070908800ULL;
+static const int64_t SPORK_12_RECONSIDER_BLOCKS_DEFAULT                 = 0;            
+static const int64_t SPORK_13_OLD_SUPERBLOCK_FLAG_DEFAULT               = 4070908800ULL;
+static const int64_t SPORK_14_REQUIRE_SENTINEL_FLAG_DEFAULT             = 4070908800ULL;
 
 extern std::map<uint256, CSporkMessage> mapSporks;
 
