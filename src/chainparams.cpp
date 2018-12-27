@@ -137,7 +137,9 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nStartTime = 1479168000;
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 1549756800; 
 
-        consensus.nMinimumChainWork = uint256S("0x");
+        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000005e064c0ee1b08");
+
+        consensus.defaultAssumeValid = uint256S("0xfbf8b23c34bcd72b43364140f1e31ee805f46778caaba9d91c4c9d4cd09e72c4");
 
         consensus.nSubinodeMinimumConfirmations = 1;
         consensus.nSubinodePaymentsStartBlock = 1000; 
