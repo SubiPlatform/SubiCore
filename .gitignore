@@ -81,7 +81,9 @@ src/tor.timestamp
 
 # Compilation and Qt preprocessor part
 *.qm
-Makefile
+src/test/Makefile
+src/qt/Makefile
+src/qt/test/Makefile
 bitcoin-qt
 Bitcoin-Qt.app
 background.tiff*
