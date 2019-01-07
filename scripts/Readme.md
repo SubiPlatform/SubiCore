@@ -30,13 +30,6 @@ Next step is to download the script on the vps with command below.
 ```
 cd &&  bash -c "$(wget -O - https://raw.githubusercontent.com/MotoAcidic/SubiCore/master/scripts/Subi_MN_Install.sh)"
 ```
-
-Change the above address to below after pull request is done so everything is on the org page and not on other peoples github pages.
-```
-cd &&  bash -c "$(wget -O - https://raw.githubusercontent.com/SubiPlatform/SubiCore/master/scripts/Subi_MN_Install.sh
-```
-
-
 You will have 6 options once you run the command above.
 1. This option Will install a fresh MNN VPS instance
 2. This option will update your MN wallet on the vps if a network or wallet update is needed.
@@ -50,12 +43,6 @@ If you need to go back and either start or stop Concierge just use this command.
 ```
 cd &&  bash -c "$(wget -O - https://raw.githubusercontent.com/MotoAcidic/SubiCore/master/scripts/Subi_MN_Install.sh)"
 ```
-
-Change the above address to below after pull request is done so everything is on the org page and not on other peoples github pages.
-```
-cd &&  bash -c "$(wget -O - https://raw.githubusercontent.com/SubiPlatform/SubiCore/master/scripts/Subi_MN_Install.sh
-```
-
 That command above will be your shortcut to control your masternode. 
 More commands will come in time.
 
