@@ -100,9 +100,9 @@ EXTIP=`curl -s4 icanhazip.com`
 echo Please input your private key.
 read GENKEY
 
-mkdir -p /root/.subi && touch /root/.subi/subi.conf
+mkdir -p /root/.subi && touch /root/.subi/subinode.conf
 
-cat << EOF > /root/.subi/subi.conf
+cat << EOF > /root/.subi/subinode.conf
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
 rpcallowip=127.0.0.1
