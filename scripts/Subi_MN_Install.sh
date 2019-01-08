@@ -100,9 +100,9 @@ EXTIP=`curl -s4 icanhazip.com`
 echo Please input your private key.
 read GENKEY
 
-mkdir -p /root/.subi && touch /root/.subi/subinode.conf
+mkdir -p /root/.subi && touch /root/.subi/subi.conf
 
-cat << EOF > /root/.subi/subinode.conf
+cat << EOF > /root/.subi/subi.conf
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
 rpcallowip=127.0.0.1
@@ -113,7 +113,6 @@ staking=1
 rpcallowip=127.0.0.1
 rpcport=5336
 port=5335
-prune=500
 addnode=104.207.150.126:5335
 addnode=106.38.72.242:18881
 addnode=173.212.230.240:35732
@@ -169,7 +168,7 @@ addnode=[2002:b92b:df4c::b92b:df4c]:54562
 addnode=[2002:b9e7:45c7::b9e7:45c7]:51356
 logtimestamps=1
 maxconnections=256
-masternode=1
+subinode=1
 externalip=$EXTIP
 masternodeprivkey=$GENKEY
 EOF
