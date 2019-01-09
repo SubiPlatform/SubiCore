@@ -17,9 +17,9 @@ Shell script to install a SUBI Masternode on a Linux server running Ubuntu 16.04
 
 
 Steps generate your own private key. 
-1.  Download and install SUBI v1.0.0.0 for Windows -   Download Link  - https://github.com/SubiPlatform/SubiCore/releases
-2.  Go to **Tools -> Click "Debug Console"** 
-3.  Type the following command: **masternode genkey**  
+1.  Download and install SUBI v1.0.0.2 for Windows -   Download Link  - https://github.com/SubiPlatform/SubiCore/releases
+2.  Go to **Settings"** 
+3.  Type the following command: **subinode genkey**  
 4. You now have your generated **Private Key**  (MasternodePrivKey)
 
 
@@ -39,7 +39,7 @@ You will have 6 options once you run the command above.
 6. This option will Rebuild SUBI Masternode Index
 
 
-If you need to go back and either start or stop Concierge just use this command.
+If you need to go back and either start or stop Subi just use this command.
 ```
 cd &&  bash -c "$(wget -O - https://raw.githubusercontent.com/MotoAcidic/SubiCore/master/scripts/Subi_MN_Install.sh)"
 ```
@@ -73,20 +73,20 @@ After the MN is up and running, you need to configure the desktop wallet accordi
 2. Go to RECEIVE and create a New Address: **MN1**  
 3. Send **10000** CCBC to **MN1**. You need to send 10000 coins in one single transaction.
 4. Wait for 10 confirmations.  
-5. Go to **Tools -> Click "Debug Console"** 
-6. Type the following command: **masternode outputs**  
-7. Go to  **Tools -> "Open Masternode Configuration File"**
+5. Go to **Settings"** 
+6. Type the following command: **subinode outputs**  
+7. Go to  **Subinode -> Subinode -> Create Subinode button**
 8. Add the following entry:
 ```
-Alias Address Privkey TxHash TxIndex
+IP Address Password Privkey Alias TxHash TxIndex
 ```
-## SAMPLE OF HOW YOUR MASTERNODE.CONF SHOULD LOOK LIKE.  (This should all be on one line)  
+## SAMPLE OF HOW YOUR SUBINODE.CONF SHOULD LOOK LIKE.  (This should all be on one line)  
 
 ```
 MN1 127.0.0.2:5335 93HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c84f87eaa86e4e56834c92927a07f9e18718810b92e0d0324456a67c0
 ```
 
-
+* Password: **Wallet password"
 * Alias: **MN1**
 * Address: **VPS_IP:PORT**
 * Privkey: **Masternode Private Key**
@@ -96,17 +96,11 @@ MN1 127.0.0.2:5335 93HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c
 10. Go to **Masternode Tab**. 
 If you tab is not shown, please enable it from: **Settings - Options - Wallet - Show Masternodes Tab**
 11. Click **Update status** to see your node. If it is not shown, close the wallet and start it again. 
-12. Select your MN and right click on the masternode **Start Alias** to start it.
-13. Alternatively, open **Debug Console** and type:
+12. On the Subinode page click **Start Subinode** to start it.
+13. Login to your VPS and check your masternode status by running the following command:.
 
 ```
-startmasternode alias 0 MN1 
-``` 
-
-14. Login to your VPS and check your masternode status by running the following command:.
-
-```
-./subi-cli masternode status
+./subi-cli subinode status
 ```
 
 You want to see **"Masternode started successfully and Status 4"**
