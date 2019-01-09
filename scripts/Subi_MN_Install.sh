@@ -170,7 +170,7 @@ logtimestamps=1
 maxconnections=256
 subinode=1
 externalip=$EXTIP
-masternodeprivkey=$GENKEY
+subinodeprivkey=$GENKEY
 EOF
 clear
 ./subid -daemon
