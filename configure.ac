@@ -769,7 +769,7 @@ fi
 if test x$use_boost = xyes; then
 
 dnl Minimum required Boost version
-define(MINIMUM_REQUIRED_BOOST, 1.47.0)
+define(MINIMUM_REQUIRED_BOOST, 1.58.0)
 
 dnl Check for boost libs
 AX_BOOST_BASE([MINIMUM_REQUIRED_BOOST])
@@ -794,7 +794,7 @@ if test x$use_reduce_exports = xyes; then
   AC_PREPROC_IFELSE([AC_LANG_PROGRAM([[
       @%:@include <boost/version.hpp>
     ]], [[
-      #if BOOST_VERSION >= 104900
+      #if BOOST_VERSION >= 158000
       // Everything is okay
       #else
       #  error Boost version is too old
@@ -802,7 +802,7 @@ if test x$use_reduce_exports = xyes; then
     ]])],[
       AC_MSG_RESULT(yes)
     ],[
-    AC_MSG_ERROR([boost versions < 1.49 are known to be broken with reduced exports. Use --disable-reduce-exports.])
+    AC_MSG_ERROR([boost versions < 1.58 are known to be broken with reduced exports. Use --disable-reduce-exports.])
   ])
   CPPFLAGS="$TEMP_CPPFLAGS"
 fi
@@ -898,7 +898,7 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[
   #include <boost/thread/thread.hpp>
   #include <boost/version.hpp>
   ]],[[
-  #if BOOST_VERSION >= 105000 && (!defined(BOOST_HAS_NANOSLEEP) || BOOST_VERSION >= 105200)
+  #if BOOST_VERSION >= 158000 && (!defined(BOOST_HAS_NANOSLEEP) || BOOST_VERSION >= 158000)
       boost::this_thread::sleep_for(boost::chrono::milliseconds(0));
   #else
    choke me
@@ -920,7 +920,7 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[
   #include <boost/thread.hpp>
   #include <boost/date_time/posix_time/posix_time_types.hpp>
   ]],[[
-  #if BOOST_VERSION <= 105600
+  #if BOOST_VERSION <= 158000
       boost::this_thread::sleep(boost::posix_time::milliseconds(0));
   #else
    choke me

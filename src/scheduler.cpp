@@ -54,7 +54,8 @@ void CScheduler::serviceQueue()
             // the time of the first item on the queue:
 
 // wait_until needs boost 1.50 or later; older versions have timed_wait:
-#if BOOST_VERSION < 105000
+#if BOOST_VERSION >= 158000
+            //#if BOOST_VERSION < 105000
             while (!shouldStop() && !taskQueue.empty() &&
                    newTaskScheduled.timed_wait(lock, toPosixTime(taskQueue.begin()->first))) {
                 // Keep waiting until timeout
