@@ -70,7 +70,7 @@ CTRL and C  at the same time  (CTRL KEY and C KEY)
 
 After the MN is up and running, you need to configure the desktop wallet accordingly. Here are the steps:  
 1. Open the SUBI Desktop Wallet.  
-2. Go to HELP -> DEBUG then click on CONSOL tab and type getnewaddress MN1 legacy **MN1**  
+2. Go to HELP -> DEBUG then click on CONSOLE tab and type **getnewaddress MN1 legacy**  
 3. Send **10000** SUBI to **MN1**. You need to send 10000 coins in one single transaction.
 4. Wait for 10 confirmations.  
 5. Go to **Settings"** 
