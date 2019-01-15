@@ -111,8 +111,8 @@ You want to see **"Masternode started successfully and Status 4"**
 
 ```
 ./subi-cli getinfo
-./subi-cli mnsync status
-./subi-cli masternode status
+./subi-cli subinodesync status
+./subi-cli subinode status
 ```
   
 Thank you too Franco#6184 for catching some errors! :)
