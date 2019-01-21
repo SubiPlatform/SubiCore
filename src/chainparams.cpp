@@ -178,6 +178,7 @@ public:
         vSeeds.emplace_back("us1.subi.io");
         vSeeds.emplace_back("tokyo1.subi.io");
         vSeeds.emplace_back("uk1.subi.io");
+		vSeeds.emplace_back("ru1.subi.io");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,75);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,63);
@@ -215,12 +216,13 @@ public:
             {
                 { 0, uint256S("0xdf87e28509af333eb243782afcb5cf4a1f49364b355d4d3c7f78ecbb5c522d27")},
                 { 10000, uint256S("0xaa641ebce6ace84550f195142b656b802bad35e37070161d11a977661526c342")},
+				{ 40000, uint256S("0x111aaa8a8209871a73b484e52c4e9ad66fb989249302a8d831bf19cec7c449e5")},
             }
         };
 
         chainTxData = ChainTxData{
-            1545895330,
-            14630,
+            1548050638,
+            59844,
             0.02 
         };
     }
