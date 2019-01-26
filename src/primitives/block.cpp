@@ -5,6 +5,8 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <primitives/block.h>
+#include <chainparams.h>
+#include <chainparamsbase.h>
 
 #include <hash.h>
 #include <tinyformat.h>
