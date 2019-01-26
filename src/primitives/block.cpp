@@ -25,7 +25,7 @@ uint256 CBlockHeader::GetPoWHash(int nHeight) const
   uint256 thash;
   unsigned int profile = 0x0;
 
-  if (nHeight >= 60000 {
+  if (nHeight >= 60000) {
     int32_t nTimeX16r = nTime&TIME_MASK;
     uint256 hashTime = Hash(BEGIN(nTimeX16r), END(nTimeX16r));
     thash = HashX16R(BEGIN(nVersion), END(nNonce), hashTime);
