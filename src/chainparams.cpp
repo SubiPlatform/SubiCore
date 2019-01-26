@@ -254,19 +254,19 @@ public:
 
         consensus.nMinimumChainWork = uint256S("0x0");
 
-        consensus.nSubinodeMinimumConfirmations = 1;
-        consensus.nSubinodePaymentsStartBlock = 50;
+        consensus.nSubinodeMinimumConfirmations = 5;
+        consensus.nSubinodePaymentsStartBlock = 5000;
         consensus.nSubinodeInitialize = 20;
 
         consensus.nPosTimeActivation = 9999999999; 
-        consensus.nPosHeightActivate = 10;
+        consensus.nPosHeightActivate = 50000;
         nModifierInterval = 10 * 60; 
         nTargetSpacing = 60;           
         nTargetTimespan = 24 * 60; 
 
-        consensus.nCoinMaturityReductionHeight = 2;
-        consensus.nStartShadeFeeDistribution = 1000;
-        consensus.nShadeFeeDistributionCycle = 20;
+        consensus.nCoinMaturityReductionHeight = 999999;
+        consensus.nStartShadeFeeDistribution = 150000;
+        consensus.nShadeFeeDistributionCycle = 720;
 
         nMaxTipAge = 0x7fffffff;
 
@@ -292,7 +292,7 @@ public:
         vFixedSeeds.clear();
         vSeeds.clear();
 
-        vSeeds.emplace_back("testnet.sub.io");
+        vSeeds.emplace_back("testnet.subi.io");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,1);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,3);
