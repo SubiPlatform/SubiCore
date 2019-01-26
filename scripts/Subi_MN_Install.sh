@@ -200,17 +200,14 @@ echo "y" | sudo ufw enable
 sudo ufw status
 echo Server firewall configuration completed.
 
-echo "! Removing SUBI !"
-sudo rm -rf subi-1.0.0.2-b-x86_64-linux-gnu.tar.gz
 
-
-wget https://github.com/MotoAcidic/SubiCore/releases/download/1.0.0.2/SUBI-linux.tar.gz
+wget https://github.com/SubiPlatform/SubiCore/releases/download/1.0.0.7/subi-1.0.0.7-x86_64-linux-gnu.tar.gz
 echo Download complete.
 echo Installing SUBI.
-tar -xvf SUBI-linux.tar.gz
+tar -xvf subi-1.0.0.7-x86_64-linux-gnu.tar.gz
 chmod 775 ./subid
 chmod 775 ./subi-cli
-sudo rm -rf SUBI-linux.tar.gz
+sudo rm -rf subi-1.0.0.7-x86_64-linux-gnu.tar.gz
 ./subid -daemon
 echo SUBI install complete. 
 
