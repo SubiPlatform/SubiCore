@@ -12,6 +12,8 @@
 #include <crypto/common.h>
 #include <crypto/neoscrypt.h>
 
+#define TIME_MASK 0xffffff80
+
 uint256 CBlockHeader::GetHash() const
 {
     return SerializeHash(*this);
@@ -20,10 +22,17 @@ uint256 CBlockHeader::GetHash() const
 uint256 CBlockHeader::GetPoWHash(int nHeight) const
 {
 
-   uint256 thash;
-   unsigned int profile = 0x0;
-   neoscrypt((unsigned char *) &nVersion, (unsigned char *) &thash, profile);
-   return thash;
+  uint256 thash;
+  unsigned int profile = 0x0;
+
+  if (nHeight >= 60000 {
+    int32_t nTimeX16r = nTime&TIME_MASK;
+    uint256 hashTime = Hash(BEGIN(nTimeX16r), END(nTimeX16r));
+    thash = HashX16R(BEGIN(nVersion), END(nNonce), hashTime);
+  } else {
+     neoscrypt((unsigned char *) &nVersion, (unsigned char *) &thash, profile);
+  }
+     return thash;
 }
 
 std::string CBlock::ToString() const

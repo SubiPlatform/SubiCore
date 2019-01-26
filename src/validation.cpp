@@ -2610,7 +2610,7 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
 
 
         CAmount nCalculatedStakeReward;
-        if(pindex->nHeight > 75000){
+        if(pindex->nHeight > 150000){
             nCalculatedStakeReward = Params().GetProofOfStakeReward(pindex->pprev, nFees) +
                     ((DEVELOPMENT_REWARD_POST_POS + ((chainActive.Height() + 1 >= Params().GetConsensus().nSubinodePaymentsStartBlock) ? SUBINODE_REWARD_POST_POS : 0)) * GetBlockSubsidy(pindex->nHeight, Params().GetConsensus()));
         }

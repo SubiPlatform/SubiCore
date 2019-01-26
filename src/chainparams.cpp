@@ -61,10 +61,13 @@ CAmount GetInitialRewards(int nHeight, const Consensus::Params& consensusParams)
     nSubsidy >>= halvings;
 
     if(nHeight == 1)
-        nSubsidy = 200000 * COIN;
+      nSubsidy = 200000 * COIN;
+
+    if(nHeight >= 60000)
+      nSubsidy = 2.5 * COIN;
 
     if(nSubsidy < (1 * COIN))
-        nSubsidy = 1*COIN;
+      nSubsidy = 1*COIN;
 
     return nSubsidy;
 }
@@ -75,14 +78,7 @@ int64_t CChainParams::GetCoinYearReward(int64_t nTime) const
 
     if (strNetworkID == "main")
     {
-        return nCoinYearReward;
-    }
-    else if (strNetworkID != "regtest")
-    {
-        int64_t nYearsSinceGenesis = (nTime - genesis.nTime) / nSecondsInYear;
-
-        if (nYearsSinceGenesis >= 0 && nYearsSinceGenesis < 3)
-            return (5 - nYearsSinceGenesis) * CENT;
+        return 5 * CENT;
     }
 
     return nCoinYearReward;
@@ -93,14 +89,9 @@ int64_t CChainParams::GetProofOfStakeReward(const CBlockIndex *pindexPrev, int64
     int64_t nSubsidy;
 
     if(!pindexPrev->IsProofOfStake()){
-        CAmount nTotal = pindexPrev->nHeight * GetInitialRewards(pindexPrev->nHeight, Params().GetConsensus()) + GetInitialRewards(1, Params().GetConsensus());
-        nSubsidy = (nTotal / COIN) * (5 * CENT) / (365 * 24 * (60 * 60 / nTargetSpacing));
+        nSubsidy = (pindexPrev->nMoneySupply / COIN) * (5 * CENT) / (365 * 24 * (60 * 60 / nTargetSpacing));
 
     }else{
-        nSubsidy = (pindexPrev->nMoneySupply / COIN) * GetCoinYearReward(pindexPrev->nTime) / (365 * 24 * (60 * 60 / nTargetSpacing));
-    }
-
-    if(allowInitial && pindexPrev->IsProofOfStake()){
         nSubsidy = (pindexPrev->nMoneySupply / COIN) * (5 * CENT) / (365 * 24 * (60 * 60 / nTargetSpacing));
     }
 
@@ -144,14 +135,14 @@ public:
         consensus.nSubinodeMinimumConfirmations = 1;
         consensus.nSubinodePaymentsStartBlock = 1000; 
         consensus.nSubinodeInitialize = 999;
-        consensus.nPosTimeActivation = 1548979200;
-        consensus.nPosHeightActivate = 75000;
+        consensus.nPosTimeActivation = 1554395268;
+        consensus.nPosHeightActivate = 150000;
         nModifierInterval = 10 * 60;    
         nTargetSpacing = 60;
         nTargetTimespan = 24 * 60;
 
         consensus.nCoinMaturityReductionHeight = 999999;
-        consensus.nStartShadeFeeDistribution = 75000;
+        consensus.nStartShadeFeeDistribution = 150000;
         consensus.nShadeFeeDistributionCycle = 720;
 
         nMaxTipAge = 30 * 60 * 60;
@@ -217,6 +208,7 @@ public:
                 { 0, uint256S("0xdf87e28509af333eb243782afcb5cf4a1f49364b355d4d3c7f78ecbb5c522d27")},
                 { 10000, uint256S("0xaa641ebce6ace84550f195142b656b802bad35e37070161d11a977661526c342")},
 				{ 40000, uint256S("0x111aaa8a8209871a73b484e52c4e9ad66fb989249302a8d831bf19cec7c449e5")},
+                { 50000, uint256S("0xf8685fb8c444a1ba6273a309e7af3a9bc76bce92d58d9b4e7bfa77713ef60d36")},
             }
         };
 
