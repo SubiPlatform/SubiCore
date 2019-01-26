@@ -1,6 +1,6 @@
 ![logo](https://github.com/SubiPlatform/SubiCore/blob/master/src/qt/res/icons/subi.png)
 
-# SUBI v1.0.0.2 Masternode Setup Guide [ Ubuntu 16.04 ]
+# SUBI v1.0.0.7 Masternode Setup Guide [ Ubuntu 16.04 ]
 
 THIS GUIDE IS FOR ROOT USERS -
 
@@ -17,7 +17,7 @@ Shell script to install a SUBI Masternode on a Linux server running Ubuntu 16.04
 
 
 Steps generate your own private key. 
-1.  Download and install SUBI v1.0.0.2 for Windows -   Download Link  - https://github.com/SubiPlatform/SubiCore/releases
+1.  Download and install SUBI v1.0.0.7 for Windows -   Download Link  - https://github.com/SubiPlatform/SubiCore/releases
 2.  Go to **Settings"** 
 3.  Type the following command: **subinode genkey**  
 4. You now have your generated **Private Key**  (MasternodePrivKey)
