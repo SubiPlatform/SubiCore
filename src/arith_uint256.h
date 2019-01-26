@@ -12,10 +12,8 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
-#include <uint256.h>
 
 class uint256;
-class uint512;
 
 class uint_error : public std::runtime_error {
 public:
@@ -66,6 +64,14 @@ public:
 
     explicit base_uint(const std::string& str);
 
+    bool operator!() const
+    {
+        for (int i = 0; i < WIDTH; i++)
+            if (pn[i] != 0)
+                return false;
+        return true;
+    }
+
     const base_uint operator~() const
     {
         base_uint ret;
@@ -79,7 +85,7 @@ public:
         base_uint ret;
         for (int i = 0; i < WIDTH; i++)
             ret.pn[i] = ~pn[i];
-        ++ret;
+        ret++;
         return ret;
     }
 
@@ -225,7 +231,6 @@ public:
     friend inline bool operator<=(const base_uint& a, const base_uint& b) { return a.CompareTo(b) <= 0; }
     friend inline bool operator==(const base_uint& a, uint64_t b) { return a.EqualTo(b); }
     friend inline bool operator!=(const base_uint& a, uint64_t b) { return !a.EqualTo(b); }
-    friend inline const base_uint operator%(const base_uint& a, const base_uint& b) { return a - (b * (a / b)); }
 
     std::string GetHex() const;
     void SetHex(const char* psz);
@@ -249,18 +254,16 @@ public:
         return pn[0] | (uint64_t)pn[1] << 32;
     }
 
-    uint32_t GetLow32() const
+    template<typename Stream>
+    void Serialize(Stream& s) const
     {
-        static_assert(WIDTH >= 1, "Assertion WIDTH >= 2 failed (WIDTH = BITS / 32). BITS is a template parameter.");
-        return pn[0];
+        s.write((char*)pn, sizeof(pn));
     }
 
-    base_uint<BITS> UintToArith(const base_blob<BITS> &a)
+    template<typename Stream>
+    void Unserialize(Stream& s)
     {
-        base_uint<BITS> b;
-        for(int x=0; x<b.WIDTH; ++x)
-            b.pn[x] = ReadLE32(a.begin() + x*4);
-        return b;
+        s.read((char*)pn, sizeof(pn));
     }
 };
 
@@ -299,28 +302,7 @@ public:
     friend arith_uint256 UintToArith256(const uint256 &);
 };
 
-/** 512-bit unsigned big integer. */
-class arith_uint512 : public base_uint<512> {
-public:
-    arith_uint512() {}
-    arith_uint512(const base_uint<512>& b) : base_uint<512>(b) {}
-    arith_uint512(uint64_t b) : base_uint<512>(b) {}
-
-    // SetHex of base_uint class causes problems with arith_uint512 so I removed the ability to constuct
-    // from a string. If this is important with can find a way to fix it later.
-    //explicit arith_uint512(const std::string& str) : base_uint<512>(str) {}
-
-    arith_uint512& SetCompact(uint32_t nCompact, bool *pfNegative = nullptr, bool *pfOverflow = nullptr);
-    uint32_t GetCompact(bool fNegative = false) const;
-
-    friend uint512 ArithToUint512(const arith_uint512 &);
-    friend arith_uint512 UintToArith512(const uint512 &);
-};
-
 uint256 ArithToUint256(const arith_uint256 &);
 arith_uint256 UintToArith256(const uint256 &);
-
-uint512 ArithToUint512(const arith_uint512 &);
-arith_uint512 UintToArith512(const uint512 &);
 
 #endif // BITCOIN_ARITH_UINT256_H
