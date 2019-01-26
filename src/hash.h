@@ -33,6 +33,8 @@
 #include "crypto/x16r/sph_whirlpool.h"
 #include "crypto/x16r/sph_sha2.h"
 
+#include <vector>
+
 typedef uint256 ChainCode;
 
 /** A hasher class for Bitcoin's 256-bit hash (double SHA-256). */
