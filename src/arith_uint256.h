@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include <uint256.h>
 
 class uint256;
 class uint512;
@@ -65,14 +66,6 @@ public:
 
     explicit base_uint(const std::string& str);
 
-    bool operator!() const
-    {
-        for (int i = 0; i < WIDTH; i++)
-            if (pn[i] != 0)
-                return false;
-        return true;
-    }
-
     const base_uint operator~() const
     {
         base_uint ret;
@@ -86,7 +79,7 @@ public:
         base_uint ret;
         for (int i = 0; i < WIDTH; i++)
             ret.pn[i] = ~pn[i];
-        ret++;
+        ++ret;
         return ret;
     }
 
@@ -232,6 +225,7 @@ public:
     friend inline bool operator<=(const base_uint& a, const base_uint& b) { return a.CompareTo(b) <= 0; }
     friend inline bool operator==(const base_uint& a, uint64_t b) { return a.EqualTo(b); }
     friend inline bool operator!=(const base_uint& a, uint64_t b) { return !a.EqualTo(b); }
+    friend inline const base_uint operator%(const base_uint& a, const base_uint& b) { return a - (b * (a / b)); }
 
     std::string GetHex() const;
     void SetHex(const char* psz);
@@ -255,16 +249,18 @@ public:
         return pn[0] | (uint64_t)pn[1] << 32;
     }
 
-    template<typename Stream>
-    void Serialize(Stream& s) const
+    uint32_t GetLow32() const
     {
-        s.write((char*)pn, sizeof(pn));
+        static_assert(WIDTH >= 1, "Assertion WIDTH >= 2 failed (WIDTH = BITS / 32). BITS is a template parameter.");
+        return pn[0];
     }
 
-    template<typename Stream>
-    void Unserialize(Stream& s)
+    base_uint<BITS> UintToArith(const base_blob<BITS> &a)
     {
-        s.read((char*)pn, sizeof(pn));
+        base_uint<BITS> b;
+        for(int x=0; x<b.WIDTH; ++x)
+            b.pn[x] = ReadLE32(a.begin() + x*4);
+        return b;
     }
 };
 
@@ -320,7 +316,6 @@ public:
     friend uint512 ArithToUint512(const arith_uint512 &);
     friend arith_uint512 UintToArith512(const uint512 &);
 };
-
 
 uint256 ArithToUint256(const arith_uint256 &);
 arith_uint256 UintToArith256(const uint256 &);

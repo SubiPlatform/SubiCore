@@ -5,7 +5,6 @@
 
 #include <arith_uint256.h>
 
-#include <uint256.h>
 #include <utilstrencodings.h>
 #include <crypto/common.h>
 
@@ -69,16 +68,16 @@ base_uint<BITS>& base_uint<BITS>::operator*=(uint32_t b32)
 template <unsigned int BITS>
 base_uint<BITS>& base_uint<BITS>::operator*=(const base_uint& b)
 {
-    base_uint<BITS> a = *this;
-    *this = 0;
+    base_uint<BITS> a;
     for (int j = 0; j < WIDTH; j++) {
         uint64_t carry = 0;
         for (int i = 0; i + j < WIDTH; i++) {
-            uint64_t n = carry + pn[i + j] + (uint64_t)a.pn[j] * b.pn[i];
-            pn[i + j] = n & 0xffffffff;
+            uint64_t n = carry + a.pn[i + j] + (uint64_t)pn[j] * b.pn[i];
+            a.pn[i + j] = n & 0xffffffff;
             carry = n >> 32;
         }
     }
+    *this = a;
     return *this;
 }
 
@@ -155,7 +154,7 @@ std::string base_uint<BITS>::GetHex() const
 template <unsigned int BITS>
 void base_uint<BITS>::SetHex(const char* psz)
 {
-    *this = UintToArith256(uint256S(psz));
+    *this = this->UintToArith(uintS<BITS>(psz));
 }
 
 template <unsigned int BITS>
