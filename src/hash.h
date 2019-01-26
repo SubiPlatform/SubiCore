@@ -13,6 +13,7 @@
 #include <serialize.h>
 #include <uint256.h>
 #include <version.h>
+#include <arith_uint256.h>
 #include <vector>
 
 #include "crypto/x16r/sph_blake.h"
