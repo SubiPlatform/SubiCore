@@ -13,7 +13,6 @@
 #include <serialize.h>
 #include <uint256.h>
 #include <version.h>
-#include <arith_uint256.h>
 #include <vector>
 
 #include "crypto/x16r/sph_blake.h"
@@ -33,7 +32,6 @@
 #include "crypto/x16r/sph_whirlpool.h"
 #include "crypto/x16r/sph_sha2.h"
 
-#include <vector>
 
 typedef uint256 ChainCode;
 
@@ -171,29 +169,6 @@ template<unsigned int N>
 inline uint160 Hash160(const prevector<N, unsigned char>& vch)
 {
     return Hash160(vch.begin(), vch.end());
-}
-
-/** Compute the 512-bit hash of an object. */
-template <typename T1>
-inline uint512 Hash512(const T1 pbegin, const T1 pend)
-{
-    static const unsigned char pblank[1] = {};
-    uint512 result;
-    CHash512().Write(pbegin == pend ? pblank : (const unsigned char*)&pbegin[0], (pend - pbegin) *
-         sizeof(pbegin[0])).Finalize((unsigned char*)&result);
-    return result;
-}
-
-template <typename T1, typename T2>
-inline uint512 Hash512(const T1 p1begin, const T1 p1end, const T2 p2begin, const T2 p2end)
-{
-    static const unsigned char pblank[1] = {};
-    uint512 result;
-    CHash512().Write(p1begin == p1end ? pblank : (const unsigned char*)&p1begin[0], (p1end - p1begin) *
-         sizeof(p1begin[0])).Write(p2begin == p2end ? pblank : (const unsigned char*)&p2begin[0], (p2end - p2begin) *
-         sizeof(p2begin[0])).Finalize((unsigned char*)&result);
-
-    return result;
 }
 
 /** A writer stream (for serialization) that computes a 256-bit hash. */
