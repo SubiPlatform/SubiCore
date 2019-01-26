@@ -33,6 +33,8 @@
 #include "crypto/x16r/sph_whirlpool.h"
 #include "crypto/x16r/sph_sha2.h"
 
+#include <vector>
+
 typedef uint256 ChainCode;
 
 /** A hasher class for Bitcoin's 256-bit hash (double SHA-256). */
@@ -122,6 +124,17 @@ inline uint256 Hash(const T1 pbegin, const T1 pend)
     return result;
 }
 
+/** Compute the sha256 hash of an object. */
+template<typename T1>
+inline uint256 HashSha256(const T1 pbegin, const T1 pend)
+{
+    static const unsigned char pblank[1] = {};
+    uint256 result;
+    CSHA256().Write(pbegin == pend ? pblank : (const unsigned char*)&pbegin[0], (pend - pbegin) * sizeof(pbegin[0]))
+            .Finalize((unsigned char*)&result);
+    return result;
+}
+
 /** Compute the 256-bit hash of the concatenation of two objects. */
 template<typename T1, typename T2>
 inline uint256 Hash(const T1 p1begin, const T1 p1end,
@@ -133,18 +146,6 @@ inline uint256 Hash(const T1 p1begin, const T1 p1end,
               .Finalize((unsigned char*)&result);
     return result;
 }
-
-/** Compute the sha256 hash of an object. */
-template<typename T1>
-inline uint256 HashSha256(const T1 pbegin, const T1 pend)
-{
-    static const unsigned char pblank[1] = {};
-    uint256 result;
-    CSHA256().Write(pbegin == pend ? pblank : (const unsigned char*)&pbegin[0], (pend - pbegin) * sizeof(pbegin[0]))
-              .Finalize((unsigned char*)&result);
-    return result;
-}
-
 
 /** Compute the 160-bit hash an object. */
 template<typename T1>
@@ -212,6 +213,11 @@ public:
         ctx.Write((const unsigned char*)pch, size);
     }
 
+    void read(const char *psz, size_t _nSize)
+    {
+        // do nothing, needed by CTxOutBaseCompressor
+    }
+
     // invalidates the object
     uint256 GetHash() {
         uint256 result;
@@ -219,14 +225,83 @@ public:
         return result;
     }
 
-    arith_uint256 GetArith256Hash() {
-        uint256 result;
-        ctx.Finalize((unsigned char*)&result);
-        return UintToArith256(result);
-    }
-
     template<typename T>
     CHashWriter& operator<<(const T& obj) {
+        // Serialize to this stream
+        ::Serialize(*this, obj);
+        return (*this);
+    }
+};
+
+/** A hasher class for zPIV-Bulletproofs Protocol */
+/** given buffer x returns 1024 bits where the first (left-most) 512 bits
+ ** are SHA512(x) and the second (right-most) 512 bits are SHA512(SHA512(x))
+ **/
+class CHash1024
+{
+private:
+    CSHA512 sha_l, sha_r;
+
+public:
+    static const size_t OUTPUT_SIZE = CSHA512::OUTPUT_SIZE;
+
+    void Finalize(unsigned char hash_l[OUTPUT_SIZE], unsigned char hash_r[OUTPUT_SIZE])
+    {
+        sha_l.Finalize(hash_l);
+        sha_l.Reset();
+        sha_r.Reset().Write(hash_l, CSHA512::OUTPUT_SIZE).Finalize(hash_r);
+    }
+
+    CHash1024& Write(const unsigned char* data, size_t len)
+    {
+        sha_l.Write(data, len);
+        return *this;
+    }
+
+    CHash1024& Reset()
+    {
+        sha_l.Reset();
+        sha_r.Reset();
+        return *this;
+    }
+};
+
+
+/** A writer stream (for serialization) for the 1024-bit hash. **/
+class CHashWriter1024
+{
+private:
+    CHash1024 ctx;
+
+public:
+    int nType;
+    int nVersion;
+
+    CHashWriter1024(int nTypeIn, int nVersionIn) : nType(nTypeIn), nVersion(nVersionIn) {}
+
+    CHashWriter1024& write(const char* pch, size_t size)
+    {
+        ctx.Write((const unsigned char*)pch, size);
+        return (*this);
+    }
+
+    // invalidates the object
+    std::vector<unsigned char> GetHash()
+    {
+      std::unique_ptr<unsigned char []> buf_l(new unsigned char[ctx.OUTPUT_SIZE]);
+      std::unique_ptr<unsigned char []> buf_r(new unsigned char[ctx.OUTPUT_SIZE]);
+      std::vector<unsigned char> buf(2*ctx.OUTPUT_SIZE);
+      ctx.Finalize(buf_l.get(), buf_r.get());
+      for(unsigned int i=0; i<ctx.OUTPUT_SIZE; i++)
+        buf[i] = buf_l[i];
+      for(unsigned int i=ctx.OUTPUT_SIZE; i<2*ctx.OUTPUT_SIZE; i++)
+        buf[i] = buf_r[i-ctx.OUTPUT_SIZE];
+      return buf;
+    }
+
+    template <typename T>
+    CHashWriter1024& operator<<(const T& obj)
+    {
         // Serialize to this stream
         ::Serialize(*this, obj);
         return (*this);
@@ -260,7 +335,7 @@ public:
     }
 
     template<typename T>
-    CHashVerifier<Source>& operator>>(T& obj)
+    CHashVerifier<Source>& operator>>(T&& obj)
     {
         // Unserialize from this stream
         ::Unserialize(*this, obj);
@@ -281,6 +356,7 @@ unsigned int MurmurHash3(unsigned int nHashSeed, const std::vector<unsigned char
 
 void BIP32Hash(const ChainCode &chainCode, unsigned int nChild, unsigned char header, const unsigned char data[32], unsigned char output[64]);
 void BIP32Hash(const unsigned char chainCode[32], unsigned int nChild, unsigned char header, const unsigned char data[32], unsigned char output[64]);
+
 /** SipHash-2-4 */
 class CSipHasher
 {
@@ -328,9 +404,11 @@ inline int GetHashSelection(const uint256 PrevBlockHash, int index) {
 extern double algoHashTotal[16];
 extern int algoHashHits[16];
 
+
 template<typename T1>
 inline uint256 HashX16R(const T1 pbegin, const T1 pend, const uint256 PrevBlockHash)
 {
+//	static std::chrono::duration<double>[16];
     int hashSelection;
 
     sph_blake512_context     ctx_blake;      //0
@@ -454,5 +532,6 @@ inline uint256 HashX16R(const T1 pbegin, const T1 pend, const uint256 PrevBlockH
 
     return hash[15].trim256();
 }
+
 
 #endif // BITCOIN_HASH_H
