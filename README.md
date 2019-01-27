@@ -23,13 +23,13 @@ Subi Specifications
 
 | Specification | Value |
 |:-----------|:-----------|
-| Algorithm | `Neoscrypt` |
+| Algorithm | `Neoscrypt / X16R - after block 60,000` |
 | Developer Fund | `5%` |
-| Initial PoW Blocks | `75,000` |
-| PoS Start Block | `75,000` |
+| Initial PoW Blocks | `150,000` |
+| PoS Start Block | `150,000` |
 | Block Size | `4MB` |
 | Block Time | `60s` |
-| PoW Reward | `45 SUBI` |
+| PoW Reward | `45 SUBI / 2.5 SUBI (after block 60,000)` |
 | PoS Reward | `5% reducing each year` |
 | Stake Time | `24 hours` | 
 | SubiNode Requirement | `10,000 SUBI` |
