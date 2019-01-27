@@ -1,6 +1,6 @@
 ![logo](https://github.com/SubiPlatform/SubiCore/blob/master/src/qt/res/icons/subi.png)
 
-# SUBI v1.0.0.7 Masternode Setup Guide [ Ubuntu 16.04 ]
+# SUBI v1.0.0.8 Masternode Setup Guide [ Ubuntu 16.04 ]
 
 THIS GUIDE IS FOR ROOT USERS -
 
@@ -17,18 +17,18 @@ Shell script to install a SUBI Masternode on a Linux server running Ubuntu 16.04
 
 
 Steps generate your own private key. 
-1.  Download and install SUBI v1.0.0.7 for Windows -   Download Link  - https://github.com/SubiPlatform/SubiCore/releases
+1.  Download and install SUBI v1.0.0.8 for Windows -   Download Link  - https://github.com/SubiPlatform/SubiCore/releases
 2.  Go to **Settings"** 
 3.  Type the following command: **subinode genkey**  
 4. You now have your generated **Private Key**  (MasternodePrivKey)
 
 
 ## VPS installation
-First you will need a VPS to continue on with this guide. If you do not have one get one from here [Vultr.](https://www.vultr.com/?ref=7424168)
+First you will need a VPS to continue on with this guide. If you do not have one get one from here [Vultr.](https://www.vultr.com/?ref=7705609)
 
 Next step is to download the script on the vps with command below.
 ```
-cd &&  bash -c "$(wget -O - https://raw.githubusercontent.com/MotoAcidic/SubiCore/master/scripts/Subi_MN_Install.sh)"
+cd &&  bash -c "$(wget -O - https://raw.githubusercontent.com/SubiPlatform/SubiCore/master/scripts/Subi_MN_Install.sh)"
 ```
 You will have 6 options once you run the command above.
 1. This option Will install a fresh MNN VPS instance
@@ -41,7 +41,7 @@ You will have 6 options once you run the command above.
 
 If you need to go back and either start or stop Subi just use this command.
 ```
-cd &&  bash -c "$(wget -O - https://raw.githubusercontent.com/MotoAcidic/SubiCore/master/scripts/Subi_MN_Install.sh)"
+cd &&  bash -c "$(wget -O - https://raw.githubusercontent.com/SubiPlatform/SubiCore/master/scripts/Subi_MN_Install.sh)"
 ```
 That command above will be your shortcut to control your masternode. 
 More commands will come in time.
