@@ -27,12 +27,10 @@ uint256 CBlockHeader::GetPoWHash(int nHeight) const
   uint256 thash;
   unsigned int profile = 0x0;
 
-  if (Params().NetworkIDString() == "testnet")
+  if (Params().NetworkIDString() == "test")
   {
     if (nHeight >= 5) {
-      int32_t nTimeX16r = nTime&TIME_MASK;
-      uint256 hashTime = Hash(BEGIN(nTimeX16r), END(nTimeX16r));
-      thash = HashX16R(BEGIN(nVersion), END(nNonce), hashTime);
+      thash = HashX16R(BEGIN(nVersion), END(nNonce), hashPrevBlock);
     } else {
       neoscrypt((unsigned char *) &nVersion, (unsigned char *) &thash, profile);
     }
