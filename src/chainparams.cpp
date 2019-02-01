@@ -167,9 +167,12 @@ public:
         assert(genesis.hashMerkleRoot == uint256S("0x9999ed4164bb6a643e373aa5dcfca3dd9a21b0c6741fcb99caa8b6cde5866165"));
 
         vSeeds.emplace_back("us1.subi.io");
-        vSeeds.emplace_back("tokyo1.subi.io");
+        vSeeds.emplace_back("jp1.subi.io");
         vSeeds.emplace_back("uk1.subi.io");
 		vSeeds.emplace_back("ru1.subi.io");
+        vSeeds.emplace_back("oce1.subi.io");
+        vSeeds.emplace_back("us1.subi.io");
+        vSeeds.emplace_back("jp2.subi.io");
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,75);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,63);
