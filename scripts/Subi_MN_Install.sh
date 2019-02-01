@@ -81,15 +81,15 @@ sudo ufw status
 echo Server firewall configuration completed.
 
 echo Downloading SUBI install files.
-wget https://github.com/SubiPlatform/SubiCore/releases/download/1.0.0.8/subi-1.0.0.8-x86_64-linux-gnu.tar.gz
+wget https://github.com/SubiPlatform/SubiCore/releases/download/1.0.0.9/subi-1.0.0.9-x86_64-linux-gnu.tar.gz
 echo Download complete.
 
 echo Installing SUBI.
-tar -xvf subi-1.0.0.8-x86_64-linux-gnu.tar.gz
+tar -xvf subi-1.0.0.9-x86_64-linux-gnu.tar.gz
 chmod 775 ./subid
 chmod 775 ./subi-cli
 echo SUBI install complete. 
-sudo rm -rf subi-1.0.0.8-x86_64-linux-gnu.tar.gz
+sudo rm -rf subi-1.0.0.9-x86_64-linux-gnu.tar.gz
 clear
 
 echo Now ready to setup SUBI configuration file.
@@ -201,13 +201,13 @@ sudo ufw status
 echo Server firewall configuration completed.
 
 
-wget https://github.com/SubiPlatform/SubiCore/releases/download/1.0.0.8/subi-1.0.0.8-x86_64-linux-gnu.tar.gz
+wget https://github.com/SubiPlatform/SubiCore/releases/download/1.0.0.9/subi-1.0.0.9-x86_64-linux-gnu.tar.gz
 echo Download complete.
 echo Installing SUBI.
-tar -xvf subi-1.0.0.8-x86_64-linux-gnu.tar.gz
+tar -xvf subi-1.0.0.9-x86_64-linux-gnu.tar.gz
 chmod 775 ./subid
 chmod 775 ./subi-cli
-sudo rm -rf subi-1.0.0.8-x86_64-linux-gnu.tar.gz
+sudo rm -rf subi-1.0.0.9-x86_64-linux-gnu.tar.gz
 ./subid -daemon
 echo SUBI install complete. 
 
